@@ -388,11 +388,14 @@ public class OdpsConnection extends WrapperAdapter implements Connection {
 
   @Override
   public void setAutoCommit(boolean autoCommit) throws SQLException {
+	return;
+	/*
     if (!autoCommit) {
       log.error(Thread.currentThread().getStackTrace()[1].getMethodName()
                 + " to false is not supported!!!");
       throw new SQLFeatureNotSupportedException("disabling autocommit is not supported");
     }
+	*/
   }
 
   @Override
@@ -448,10 +451,13 @@ public class OdpsConnection extends WrapperAdapter implements Connection {
 
   @Override
   public void setReadOnly(boolean readOnly) throws SQLException {
+	return;
+	/*
     if (readOnly) {
       log.error(Thread.currentThread().getStackTrace()[1].getMethodName() + " is not supported!!!");
       throw new SQLFeatureNotSupportedException("enabling read-only is not supported");
     }
+	*/
   }
 
   @Override
@@ -496,8 +502,11 @@ public class OdpsConnection extends WrapperAdapter implements Connection {
 
   @Override
   public Map<String, Class<?>> getTypeMap() throws SQLException {
+	return new HashMap<>();
+	/*
     log.error(Thread.currentThread().getStackTrace()[1].getMethodName() + " is not supported!!!");
     throw new SQLFeatureNotSupportedException();
+	*/
   }
 
   @Override
@@ -508,14 +517,20 @@ public class OdpsConnection extends WrapperAdapter implements Connection {
 
   @Override
   public void setHoldability(int holdability) throws SQLException {
+	return;
+	/*
     log.error(Thread.currentThread().getStackTrace()[1].getMethodName() + " is not supported!!!");
     throw new SQLFeatureNotSupportedException();
+	*/
   }
 
   @Override
   public int getHoldability() throws SQLException {
+	return ResultSet.CLOSE_CURSORS_AT_COMMIT;
+	/*
     log.error(Thread.currentThread().getStackTrace()[1].getMethodName() + " is not supported!!!");
     throw new SQLFeatureNotSupportedException();
+	*/
   }
 
   @Override
@@ -587,8 +602,11 @@ public class OdpsConnection extends WrapperAdapter implements Connection {
   @Override
   public Statement createStatement(int resultSetType, int resultSetConcurrency,
                                    int resultSetHoldability) throws SQLException {
+	/*
     log.error(Thread.currentThread().getStackTrace()[1].getMethodName() + " is not supported!!!");
     throw new SQLFeatureNotSupportedException();
+	*/
+	return createStatement(resultSetType, resultSetConcurrency);
   }
 
   @Override
