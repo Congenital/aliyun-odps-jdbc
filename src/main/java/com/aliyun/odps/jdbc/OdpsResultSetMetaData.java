@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
 
 import com.aliyun.odps.OdpsType;
 import com.aliyun.odps.jdbc.utils.JdbcColumn;
@@ -193,6 +194,7 @@ public class OdpsResultSetMetaData extends WrapperAdapter implements ResultSetMe
   public int getColumnIndex(String name) {
     if (nameIndexMap == null) {
       nameIndexMap = new HashMap<String, Integer>();
+			System.out.println("andy: index " + Arrays.toString(columnNames.toArray()));
       for (int i = 0; i < columnNames.size(); ++i) {
         nameIndexMap.put(columnNames.get(i), i + 1);
         nameIndexMap.put(columnNames.get(i).toLowerCase(), i + 1);

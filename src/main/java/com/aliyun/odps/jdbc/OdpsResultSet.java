@@ -159,6 +159,7 @@ public abstract class OdpsResultSet extends WrapperAdapter implements ResultSet 
    */
   @Override
   public int findColumn(String columnLabel) throws SQLException {
+		System.out.println("andy: columnLabel " + columnLabel);
     int index = getMetaData().getColumnIndex(columnLabel);
     if (index == -1) {
       throw new SQLException("the column label is invalid");
