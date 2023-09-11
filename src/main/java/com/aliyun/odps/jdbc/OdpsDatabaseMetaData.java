@@ -783,6 +783,7 @@ public class OdpsDatabaseMetaData extends WrapperAdapter implements DatabaseMeta
       String schemaPattern,
       String tableNamePattern,
       String[] types) throws SQLException {
+		System.out.println("andy: getTables " + catalog + " " + schemaPattern + " " + tableNamePattern);
     long begin = System.currentTimeMillis();
     List<Object[]> rows = new ArrayList<>();
 
@@ -820,12 +821,16 @@ public class OdpsDatabaseMetaData extends WrapperAdapter implements DatabaseMeta
               && schemaMatches(schemaPattern, schemas.getString(COL_NAME_TABLE_SCHEM))) {
             // Enable the argument 'extended' so that the returned table objects contains all the
             // information needed by JDBC, like comment and type.
-            Iterator<Table> iter = conn.getOdps().tables().iterator(
+            Iterator<Table> iter = conn.getOdps().tables().iterator();
+						/*
+						(
                 schemas.getString(COL_NAME_TABLE_CATALOG), schemas.getString(COL_NAME_TABLE_SCHEM),
                  null, true);
+						*/
             while (iter.hasNext()) {
               Table t = iter.next();
               String tableName = t.getName();
+							System.out.println("andy: table: " + t);
               if (!Utils.matchPattern(tableName, tableNamePattern)) {
                 continue;
               }
@@ -899,24 +904,28 @@ public class OdpsDatabaseMetaData extends WrapperAdapter implements DatabaseMeta
 
   private void convertTablesToRows(String[] types, List<Object[]> rows, List<Table> tables) {
     for (Table t : tables) {
-      String tableType = t.isVirtualView() ? TABLE_TYPE_VIEW : TABLE_TYPE_TABLE;
-      if (types != null && types.length != 0) {
-        if (!Arrays.asList(types).contains(tableType)) {
-          continue;
-        }
-      }
-      String schemaName = t.getProject();
-      if (conn.isOdpsNamespaceSchema()) {
-        schemaName = t.getSchemaName();
-      }
-      Object[] rowVals = {
-          t.getProject(),
-          schemaName,
-          t.getName(),
-          tableType,
-          t.getComment(),
-          null, null, null, null, null};
-      rows.add(rowVals);
+			try {
+				String tableType = t.isVirtualView() ? TABLE_TYPE_VIEW : TABLE_TYPE_TABLE;
+				if (types != null && types.length != 0) {
+					if (!Arrays.asList(types).contains(tableType)) {
+						continue;
+					}
+				}
+				String schemaName = t.getProject();
+				if (conn.isOdpsNamespaceSchema()) {
+					schemaName = t.getSchemaName();
+				}
+				Object[] rowVals = {
+						t.getProject(),
+						schemaName,
+						t.getName(),
+						tableType,
+						t.getComment(),
+						null, null, null, null, null};
+				rows.add(rowVals);
+			} catch (Throwable throwable) {
+					continue;
+			}
     }
     tables.clear();
   }
