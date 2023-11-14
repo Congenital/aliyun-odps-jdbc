@@ -1104,6 +1104,8 @@ public class OdpsDatabaseMetaData extends WrapperAdapter implements DatabaseMeta
       String tableNamePattern,
       String columnNamePattern) throws SQLException {
 
+		System.out.println("andy: getColumns: " + catalog + " " + schemaPattern + " " + tableNamePattern + " " + columnNamePattern);
+
     long begin = System.currentTimeMillis();
 
     if (tableNamePattern == null) {
@@ -1127,6 +1129,7 @@ public class OdpsDatabaseMetaData extends WrapperAdapter implements DatabaseMeta
         List<Column> columns = new LinkedList<>();
         columns.addAll(table.getSchema().getColumns());
         columns.addAll(table.getSchema().getPartitionColumns());
+				System.out.println("andy: table columns: " + Arrays.toString(columns.toArray()));
         for (int i = 0; i < columns.size(); i++) {
           Column col = columns.get(i);
           JdbcColumn jdbcCol = new JdbcColumn(col.getName(),

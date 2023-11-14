@@ -429,9 +429,9 @@ public abstract class OdpsResultSet extends WrapperAdapter implements ResultSet 
 
   @Override
   public String getString(int columnIndex) throws SQLException {
-    Object obj = getInnerObject(columnIndex);
-    return (String) transformToJdbcType(obj, String.class, null,
-                                        meta.getColumnOdpsType(columnIndex));
+		Object obj = getInnerObject(columnIndex);
+		return (String) transformToJdbcType(obj, String.class, null,
+																				meta.getColumnOdpsType(columnIndex));
   }
 
   @Override
@@ -441,8 +441,12 @@ public abstract class OdpsResultSet extends WrapperAdapter implements ResultSet 
 
   @Override
   public String getString(String columnLabel) throws SQLException {
-    int columnIndex = findColumn(columnLabel);
-    return getString(columnIndex);
+		try {
+			int columnIndex = findColumn(columnLabel);
+			return getString(columnIndex);
+		} catch (Throwable t) {
+			return null;
+		}
   }
 
   @Override
